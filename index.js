@@ -33,7 +33,7 @@ async function run(){
             res.json(users);
         })
         app.post('/users', async (req, res) => {
-            const query= usersCollection.find({role: "editor", status: "active"});
+            const query= usersCollection.find({role: "editor"});
             const isEditorActive = await query.toArray();
 
             if (isEditorActive.length==0) {
@@ -70,9 +70,7 @@ async function run(){
             const filter = { _id: ObjectId(id) };
             
             const updateDoc = {
-                $set: {
-                    status: "inactive"
-                }
+                $set: req.body
             };
             const result = await usersCollection.updateOne(filter, updateDoc);
             res.json(result);
